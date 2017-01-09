@@ -8,6 +8,7 @@
                 <form action="<?php echo base_url();?>welcome/do_gantipassword" role="form" method="post">
                     <div class="box-body">
                         <div class="form-group">
+                          <p style="color:rgb(230, 0, 0)"><?php echo $this->session->flashdata('warning'); ?></p>
                             <label for="exampleInputEmail1">Old Password</label>
                             <input type="password" class="form-control" placeholder="Old Password" name="old_pass" id="awal" required>
                         </div>

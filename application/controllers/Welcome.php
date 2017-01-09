@@ -6,6 +6,7 @@ class Welcome extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->database();
+		$this->load->model('ebdb');
 	}
 
 	public function index(){
@@ -28,10 +29,12 @@ class Welcome extends CI_Controller {
 			$this->session->set_userdata($data);
 			if($result->role==3)
 				redirect('welcome/mahasiswa');
-			else
+			else{
 				redirect('welcome/home');
+			}
 		}
 		else{
+			$this->session->set_flashdata('warning', 'Username atau password salah');
 			redirect('/');
 		}
 	}
@@ -46,10 +49,19 @@ class Welcome extends CI_Controller {
 
 	public function do_gantipassword(){
 		$user = $this->session->userdata('username');
-		$pass = $this->input->post('new_pass_in');
+		$oldpass = $this->input->post('old_pass');
+		$newpass = $this->input->post('new_pass');
 
-		$query = $this->ebdb->gantipassword($user, $pass);
-		redirect('welcome/home');
+		$checkpass = $this->ebdb->ambilpassword($user);
+		if($checkpass[0]->password == md5($oldpass)){
+			$result = $this->ebdb->gantipassword($user, $newpass);
+			$this->session->set_flashdata('password', 'ganti');
+			redirect('welcome/home');
+		}
+		else{
+			$this->session->set_flashdata('warning', 'Password lama yang anda masukkan salah');
+			redirect('welcome/gantipassword');
+		}
 	}
 
 	public function logout(){
@@ -58,6 +70,9 @@ class Welcome extends CI_Controller {
 	}
 
 	public function home(){
+		if($this->session->flashdata('password') != null)	{
+			$this->session->set_flashdata('ganti', 'done');
+		}
 		if($this->session->userdata('username')){
 			if($this->session->userdata('role')!=3){
 				$this->load->model('ebdb');
@@ -80,11 +95,19 @@ class Welcome extends CI_Controller {
 	}
 
 	public function mahasiswa(){
+		if($this->session->flashdata('ganti') != null){
+			$data['ganti'] = 1;
+			
+		}
+		else{
+			$data['ganti'] = 0;
+		}
 		if ($this->session->userdata('role')==3) {
 			$this->load->model('ebdb');
 			$data['mahasiswa'] = $this->ebdb->getmahasiswa($this->session->userdata('username'));
 			$data['pagename'] = "Data Mahasiswa";
 			$data['isi'] = "Mahasiswa";
+
 			$this->load->view('header', $data);
 			$this->load->view('mahasiswa');
 			$this->load->view('footer');

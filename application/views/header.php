@@ -120,6 +120,7 @@
         <section class="sidebar">
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
+            <a href="<?php echo base_url(); ?>welcome/home"><li class="header">DASHBOARD</li></a>
             <?php if($this->session->userdata('role')!=3){ ?>
             <li class="treeview">
               <a href="#">

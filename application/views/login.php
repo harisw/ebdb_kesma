@@ -18,6 +18,7 @@
       </div>
       <div class="login-box-body">
         <p class="login-box-msg">Login to update your information</p>
+        <p style="color:rgb(230, 0, 0)"><?php echo $this->session->flashdata('warning'); ?></p>
         <form action="<?php echo base_url();?>welcome/login" method="post">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" placeholder="Username" name="username">

@@ -1,3 +1,24 @@
+<script type="text/javascript">
+
+  $(document).ready(function(){
+      $("#myModal").modal('show');
+  });
+</script>
+
+
+<?php if($ganti == 1) {?>
+  <div id="myModal" class="modal fade">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                  <h4>Password has been changed</h4>
+              </div>
+          </div>
+      </div>
+  </div>
+<?php } ?>
+
 <?php $data = $mahasiswa[0]; ?>
 <section class="content">
     <div class="row">
