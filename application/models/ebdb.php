@@ -86,7 +86,7 @@ Class Ebdb extends CI_Model{
         return $query->result();
     }
 
-    public function updatemahasiswa($data){
+    public function updatemahasiswa1($data){
         $this->db->reconnect();
         $nrp                = $data['nrp'];
         $nama_lengkap       = $data['nama_lengkap'];
@@ -109,14 +109,6 @@ Class Ebdb extends CI_Model{
         $pekerjaan_wali     = $data['pekerjaan_wali'];
         $penghasilan_wali   = $data['penghasilan_wali'];
         $jumlah_saudara     = $data['jumlah_saudara'];
-        $tagihan_listrik    = $data['tagihan_listrik'];
-        $tagihan_air        = $data['tagihan_air'];
-        $tagihan_telepon    = $data['tagihan_telepon'];
-        $tagihan_pbb        = $data['tagihan_pbb'];
-        $fasilitas_dimiliki = $data['fasilitas_dimiliki'];
-        $pernyataan_ukt     = $data['pernyataan_ukt'];
-        $alasan_ukt         = $data['alasan_ukt'];
-        $saran              = $data['saran'];
         $query              = $this->db->query("UPDATE data_mahasiswa
                                                 SET
                                                 nama_lengkap='$nama_lengkap',tempat_lahir='$tempat_lahir',tanggal_lahir='$tanggal_lahir',
@@ -124,9 +116,28 @@ Class Ebdb extends CI_Model{
                                                 biaya_ukt='$biaya_ukt',biaya_spi='$biaya_spi',kebutuhan_bulan='$kebutuhan_bulan',nama_ayah='$nama_ayah',
                                                 pekerjaan_ayah='$pekerjaan_ayah',penghasilan_ayah='$penghasilan_ayah',nama_ibu='$nama_ibu',
                                                 pekerjaan_ibu='$pekerjaan_ibu',penghasilan_ibu='$penghasilan_ibu',nama_wali='$nama_wali',
-                                                pekerjaan_wali='$pekerjaan_wali',penghasilan_wali='$penghasilan_wali',jumlah_saudara='$jumlah_saudara',
+                                                pekerjaan_wali='$pekerjaan_wali',penghasilan_wali='$penghasilan_wali',jumlah_saudara='$jumlah_saudara'
+                                                WHERE nrp='$nrp'");
+    }
+
+    public function updatemahasiswa2($data){
+                $this->db->reconnect();
+        $nrp                = $data['nrp'];
+        $tagihan_listrik    = $data['tagihan_listrik'];
+        $tagihan_air        = $data['tagihan_air'];
+        $tagihan_telepon    = $data['tagihan_telepon'];
+        $tagihan_pbb        = $data['tagihan_pbb'];
+        $fasilitas_dimiliki = $data['fasilitas_dimiliki'];
+        $transportasi_sby   = $data['transportasi_sby'];
+        $foto_rumah         = $data['foto_rumah'];
+        $pernyataan_ukt     = $data['pernyataan_ukt'];
+        $alasan_ukt         = $data['alasan_ukt'];
+        $saran              = $data['saran'];
+        $query              = $this->db->query("UPDATE data_mahasiswa
+                                                SET
                                                 tagihan_listrik='$tagihan_listrik',tagihan_air='$tagihan_air',tagihan_telepon='$tagihan_telepon',
-                                                tagihan_pbb='$tagihan_pbb',fasilitas_dimiliki='$fasilitas_dimiliki',pernyataan_ukt='$pernyataan_ukt',
+                                                tagihan_pbb='$tagihan_pbb',fasilitas_dimiliki='$fasilitas_dimiliki'
+                                                    ,transportasi_surabaya='$transportasi_sby',tampak_depan_rumah='$foto_rumah',pernyataan_ukt='$pernyataan_ukt',
                                                 alasan_ukt='$alasan_ukt',saran='$saran',status_isi='1'
                                                 WHERE nrp='$nrp'");
     }

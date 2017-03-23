@@ -116,6 +116,23 @@ class Welcome extends CI_Controller {
 			redirect('welcome/home');
 		}
 	}
+
+	public function mahasiswa_2(){
+		if($this->session->flashdata('ganti') != null){
+			$data['ganti'] = 1;
+			
+		}
+		else{
+			$data['ganti'] = 0;
+		}
+			$data['mahasiswa'] = $this->ebdb->getmahasiswa($this->session->userdata('username'));
+			$data['pagename'] = "Data Mahasiswa";
+			$data['isi'] = "Mahasiswa";
+
+			$this->load->view('header', $data);
+			$this->load->view('mahasiswa_2');
+			$this->load->view('footer');
+	}
 	public function tambah(){
 		if($this->session->userdata('username')) {
 			$data['pagename'] = "Tambah Mahasiswa";
@@ -252,42 +269,80 @@ class Welcome extends CI_Controller {
 		redirect('welcome/hapusakun');
 	}
 
-	public function inputdatamahasiswa(){
+	public function inputdatamahasiswa1(){
 		$data = array(
 			'nrp'					=> $this->session->userdata('username'),
-			'nama_lengkap' 			=> $this->input->post('a'),
-			'tempat_lahir' 			=> $this->input->post('b'),
-			'tanggal_lahir' 		=> date('Y-m-d',strtotime($this->input->post('c'))),
-			'alamat_surabaya' 		=> $this->input->post('d'),
-			'no_hp'		 			=> $this->input->post('e'),
-			'jalur_diterima'		=> $this->input->post('f'),
-			'beasiswa_sekarang' 	=> $this->input->post('g'),
-			'biaya_ukt' 			=> $this->input->post('h'),
-			'biaya_spi' 			=> $this->input->post('i'),
-			'kebutuhan_bulan'		=> $this->input->post('j'),
-			'nama_ayah' 			=> $this->input->post('k'),
-			'pekerjaan_ayah'		=> $this->input->post('l'),
-			'penghasilan_ayah'		=> $this->input->post('m'),
-			'nama_ibu'	 			=> $this->input->post('n'),
-			'pekerjaan_ibu'			=> $this->input->post('o'),
-			'penghasilan_ibu'		=> $this->input->post('p'),
-			'nama_wali' 			=> $this->input->post('q'),
-			'pekerjaan_wali'		=> $this->input->post('r'),
-			'penghasilan_wali'		=> $this->input->post('s'),
-			'jumlah_saudara' 		=> $this->input->post('t'),
-			'tagihan_listrik'		=> $this->input->post('u'),
-			'tagihan_air' 			=> $this->input->post('v'),
-			'tagihan_telepon'		=> $this->input->post('w'),
-			'tagihan_pbb' 			=> $this->input->post('x'),
-			'fasilitas_dimiliki'	=> $this->input->post('y'),
-			'pernyataan_ukt'		=> $this->input->post('optionsRadios'),
-			'alasan_ukt' 			=> $this->input->post('z'),
-			'saran'		 			=> $this->input->post('saran')
+			'nama_lengkap' 			=> $this->input->post('nama_lengkap'),
+			'tempat_lahir' 			=> $this->input->post('tempat_lahir'),
+			'tanggal_lahir' 		=> date('Y-m-d',strtotime($this->input->post('tanggal_lahir'))),
+			'alamat_surabaya' 		=> $this->input->post('alamat_surabaya'),
+			'no_hp'		 			=> $this->input->post('no_hp'),
+			'jalur_diterima'		=> $this->input->post('jalur_diterima'),
+			'beasiswa_sekarang' 	=> $this->input->post('beasiswa_sekarang'),
+			'biaya_ukt' 			=> $this->input->post('biaya_ukt'),
+			'biaya_spi' 			=> $this->input->post('biaya_spi'),
+			'kebutuhan_bulan'		=> $this->input->post('kebutuhan_bulan'),
+			'nama_ayah' 			=> $this->input->post('nama_ayah'),
+			'pekerjaan_ayah'		=> $this->input->post('pekerjaan_ayah'),
+			'penghasilan_ayah'		=> $this->input->post('penghasilan_ayah'),
+			'nama_ibu'	 			=> $this->input->post('nama_ibu'),
+			'pekerjaan_ibu'			=> $this->input->post('pekerjaan_ibu'),
+			'penghasilan_ibu'		=> $this->input->post('penghasilan_ibu'),
+			'nama_wali' 			=> $this->input->post('nama_wali'),
+			'pekerjaan_wali'		=> $this->input->post('pekerjaan_wali'),
+			'penghasilan_wali'		=> $this->input->post('penghasilan_wali'),
+			'jumlah_saudara' 		=> $this->input->post('jumlah_saudara'),		
 		);
+
 		$this->load->model('ebdb');
-		$query = $this->ebdb->updatemahasiswa($data);
-		redirect('welcome/mahasiswa');
+		$query = $this->ebdb->updatemahasiswa1($data);
+		redirect('welcome/mahasiswa_2');
 	}
 
+	public function inputdatamahasiswa2(){
+		$username = $this->session->userdata('username');
+		$enuser = substr(md5($username),0,5);
+		$path = "assets/img/user/".$enuser."-".$username;
+
+		if(!file_exists($path)) mkdir($path);
+
+		if(!empty($_FILES['input-file-preview']['name'])){
+			$filename = $_FILES['input-file-preview']['name'];
+        	$file_ext = substr($filename, strrpos($filename, '.', -1));
+        	echo "masuk";
+                //SET NAMA FILE DAN UPLOAD PATH
+  	        $config['upload_path'] = $path;
+  	        $config['allowed_types'] = 'gif|jpg|png';
+    		$config['file_name'] = "rumah".$file_ext;
+
+  				//SET CONFIG
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+        	$filedatabase = $path."/rumah".$file_ext;
+
+        	$apa=$this->upload->do_upload('input-file-preview');
+
+        	if($apa){
+        		
+        		$data = array(
+				'nrp'					=> $this->session->userdata('username'),
+				'tagihan_listrik'		=> $this->input->post('tagihan_listrik'),
+				'tagihan_air' 			=> $this->input->post('tagihan_air'),
+				'tagihan_telepon'		=> $this->input->post('tagihan_telepon'),
+				'tagihan_pbb' 			=> $this->input->post('tagihan_pbb'),
+				'fasilitas_dimiliki'	=> $this->input->post('fasilitas_dimiliki'),
+				'transportasi_sby'		=> $this->input->post('transportasi_sby'),
+				'foto_rumah'			=> $filedatabase,
+				'pernyataan_ukt'		=> $this->input->post('pernyataan_ukt'),
+				'alasan_ukt' 			=> $this->input->post('alasan_ukt'),
+				'saran'		 			=> $this->input->post('saran')
+				);
+		
+				$this->load->model('ebdb');
+				$query = $this->ebdb->updatemahasiswa2($data);
+				redirect('welcome/mahasiswa');
+			}
+		}
+	}
 }
 ?>

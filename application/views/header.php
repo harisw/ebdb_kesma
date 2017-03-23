@@ -22,6 +22,32 @@
     <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/alertify/css/themes/bootstrap.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/datepicker/datepicker3.css">
     <style>
+        .container{
+    margin-top:20px;
+}
+.image-preview-input {
+    position: relative;
+  overflow: hidden;
+  margin: 0px;    
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;    
+}
+.image-preview-input input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.image-preview-input-title {
+    margin-left:2px;
+}
+
         textarea {
             resize: vertical; /* user can resize vertically, but width is fixed */
         }
@@ -77,6 +103,7 @@
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <script src="<?php echo base_url();?>assets/plugins/typeahead/typeahead.js"></script>
     <script src="<?php echo base_url();?>assets/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="<?php echo base_url();?>assets/js/input_image.js"></script>
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
