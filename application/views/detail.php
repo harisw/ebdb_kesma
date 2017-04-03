@@ -102,6 +102,16 @@
                     <td>Fasilitas Dimiliki</td>
                     <td><?php echo $data->fasilitas_dimiliki?></td>
                 </tr>
+                <tr>
+                    <td>Transportasi yang digunakan</td>
+                    <td><?php echo $data->transportasi_surabaya?></td>
+                </tr>
+
+                <tr>
+                <td>Foto Rumah</td>
+                <td><img src="<?php echo base_url().$data->tampak_depan_rumah?>" alt="Foto Rumah" class="img-thumbnail"></td>
+                </tr>
+
                 <?php if($data->pernyataan_ukt==1){ ?>
                 <tr>
                     <td>Pernyataan UKT</td>

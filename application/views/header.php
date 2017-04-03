@@ -25,6 +25,14 @@
         .container{
     margin-top:20px;
 }
+
+img.img-thumbnail{
+  max-width: 460px;
+  max-height: 190px;
+  height: auto;
+  width: auto;
+}
+
 .image-preview-input {
     position: relative;
   overflow: hidden;

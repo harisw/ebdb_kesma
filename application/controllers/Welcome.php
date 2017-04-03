@@ -20,6 +20,7 @@ class Welcome extends CI_Controller {
 			'password' => $this->input->post('password')
 		);
 		$query = $this->ebdb->login($data);
+		
 		if (sizeof($query)){
 			$result = $query[0];
 			$data = array(
@@ -306,7 +307,8 @@ class Welcome extends CI_Controller {
 
 		if(!file_exists($path)) mkdir($path);
 
-		if(!empty($_FILES['input-file-preview']['name'])){
+		if(!empty($_FILES['input-file-preview']['name']))
+		{
 			$filename = $_FILES['input-file-preview']['name'];
         	$file_ext = substr($filename, strrpos($filename, '.', -1));
         	echo "masuk";

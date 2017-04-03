@@ -10,8 +10,14 @@ Class Ebdb extends CI_Model{
         $this->db->reconnect();
         $username = $data['username'];
         $password = $data['password'];
-        $query = $this->db->query("CALL sp_login('$username','$password');");
-        return $query->result();
+        $query = $this->db->query("SELECT username, role from user where username='".$username."'
+                                        and password = md5('".$password."');");
+        if($query)
+        {
+            return $query->result();
+        }
+        else
+            return false;
     }
 
     public function ambilpassword($user_in){
@@ -40,8 +46,13 @@ Class Ebdb extends CI_Model{
 
     public function getcountmahasiswa(){
         $this->db->reconnect();
-        $query = $this->db->query("SELECT COUNT(*) AS total FROM USER WHERE role=3");
-        return $query->row()->total;
+        $query = $this->db->query("SELECT COUNT(*   ) AS total FROM USER WHERE role=3");
+        if($query)
+        {
+            return $query->row()->total;
+        }
+        else
+            return false;
     }
 
     public function getcountisi(){
@@ -59,7 +70,7 @@ Class Ebdb extends CI_Model{
     public function getpengelolakaun(){
         $this->db->reconnect();
         $query = $this->db->query("SELECT COUNT(*) as pengelola FROM USER WHERE role=2;");
-        return $query->row()->pengelola;
+        return $query ? $query->row()->pengelola : false;
     }
 
     public function tambahakunpengelola($data){
