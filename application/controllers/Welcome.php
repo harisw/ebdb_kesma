@@ -20,7 +20,7 @@ class Welcome extends CI_Controller {
 			'password' => $this->input->post('password')
 		);
 		$query = $this->ebdb->login($data);
-		
+
 		if (sizeof($query)){
 			$result = $query[0];
 			$data = array(
@@ -98,7 +98,7 @@ class Welcome extends CI_Controller {
 	public function mahasiswa(){
 		if($this->session->flashdata('ganti') != null){
 			$data['ganti'] = 1;
-			
+
 		}
 		else{
 			$data['ganti'] = 0;
@@ -121,7 +121,7 @@ class Welcome extends CI_Controller {
 	public function mahasiswa_2(){
 		if($this->session->flashdata('ganti') != null){
 			$data['ganti'] = 1;
-			
+
 		}
 		else{
 			$data['ganti'] = 0;
@@ -292,7 +292,7 @@ class Welcome extends CI_Controller {
 			'nama_wali' 			=> $this->input->post('nama_wali'),
 			'pekerjaan_wali'		=> $this->input->post('pekerjaan_wali'),
 			'penghasilan_wali'		=> $this->input->post('penghasilan_wali'),
-			'jumlah_saudara' 		=> $this->input->post('jumlah_saudara'),		
+			'jumlah_saudara' 		=> $this->input->post('jumlah_saudara'),
 		);
 
 		$this->load->model('ebdb');
@@ -310,23 +310,31 @@ class Welcome extends CI_Controller {
 		if(!empty($_FILES['input-file-preview']['name']))
 		{
 			$filename = $_FILES['input-file-preview']['name'];
-        	$file_ext = substr($filename, strrpos($filename, '.', -1));
-        	echo "masuk";
-                //SET NAMA FILE DAN UPLOAD PATH
-  	        $config['upload_path'] = $path;
-  	        $config['allowed_types'] = 'gif|jpg|png';
-    		$config['file_name'] = "rumah".$file_ext;
+      $file_ext = substr($filename, strrpos($filename, '.', -1));
 
-  				//SET CONFIG
-            $this->load->library('upload', $config);
-            $this->upload->initialize($config);
-        	$filedatabase = $path."/rumah".$file_ext;
+			//Check if there's another file's inside
+			$findname = $path."/rumah.*";
+			$find = glob($findname);
+			if($find){
+				//Set the old file to be a backup if there's
+				$find = $find[0];
+				$ext = substr($find, strrpos($find, '.', -1));
+				$rename = rename($find, $path."/rumah-backup".$ext);
+			}
 
-        	$apa=$this->upload->do_upload('input-file-preview');
+      //SET NAMA FILE DAN UPLOAD PATH
+      $config['upload_path'] = $path;
+      $config['allowed_types'] = 'gif|jpg|png';
+  		$config['file_name'] = "rumah".$file_ext;
 
-        	if($apa){
-        		
-        		$data = array(
+			//SET CONFIG
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);
+      $filedatabase = $path."/rumah".$file_ext;
+    	$apa=$this->upload->do_upload('input-file-preview');
+    	if($apa){
+
+    		$data = array(
 				'nrp'					=> $this->session->userdata('username'),
 				'tagihan_listrik'		=> $this->input->post('tagihan_listrik'),
 				'tagihan_air' 			=> $this->input->post('tagihan_air'),
@@ -339,7 +347,7 @@ class Welcome extends CI_Controller {
 				'alasan_ukt' 			=> $this->input->post('alasan_ukt'),
 				'saran'		 			=> $this->input->post('saran')
 				);
-		
+
 				$this->load->model('ebdb');
 				$query = $this->ebdb->updatemahasiswa2($data);
 				redirect('welcome/mahasiswa');
