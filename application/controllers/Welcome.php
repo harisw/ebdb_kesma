@@ -354,5 +354,10 @@ class Welcome extends CI_Controller {
 			}
 		}
 	}
+
+	public function tambahan_feature()
+	{
+		return TRUE;
+	}
 }
 ?>
